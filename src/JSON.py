@@ -52,3 +52,19 @@ def inicializar_datos(archivo_origen=ARCHIVO_ORIGEN, archivo_destino=ARCHIVO_DES
     shutil.copyfile(archivo_origen, archivo_destino)
     print(f"Datos inicializados desde '{archivo_origen}' a '{archivo_destino}'.")
     return True
+
+def cargar_json(ruta):
+    """
+    Carga un archivo JSON y devuelve un diccionario.
+    """
+    try:
+        with open(ruta, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    except FileNotFoundError:
+        print(f"WARNING: El archivo '{ruta}' no existe.")
+        return None
+
+    except json.JSONDecodeError:
+        print(f"WARNING: El archivo '{ruta}' tiene un formato JSON inválido o está vacío.")
+        return None
