@@ -75,3 +75,63 @@ def guardar_json(datos, ruta):
             json.dump(datos, f, indent=4, ensure_ascii=False)
     except Exception as e:
         print(f"ERROR guardando JSON: {e}")
+
+def main():
+    limpiar_consola()
+
+
+    inicializar_datos()
+
+
+    datos = cargar_json(ARCHIVO_DESTINO)
+    if datos is None:
+        datos = {"usuarios": []}
+
+    mostrar_datos(datos)
+    pausar()
+
+    usuarios = datos["usuarios"]
+    usuario = next((u for u in usuarios if u["id"] == 1), None)
+
+    if usuario:
+        usuario["edad"] += 1
+        print("\nUsuario con ID 1 actualizado.")
+    else:
+        print("\nERROR Usuario con ID 1 no encontrado.")
+
+    mostrar_datos(datos)
+    pausar()
+
+    nuevo_usuario = {"id": 3, "nombre": "Pedro", "edad": 40}
+
+
+    ids = {u["id"] for u in usuarios}
+    nuevo_id = nuevo_usuario["id"]
+    if nuevo_id in ids:
+        nuevo_id = max(ids) + 1
+        nuevo_usuario["id"] = nuevo_id
+
+    usuarios.append(nuevo_usuario)
+
+    print("\nUsuario Pedro añadido con éxito.")
+    mostrar_datos(datos)
+    pausar()
+
+    existe = any(u["id"] == 2 for u in usuarios)
+
+    if existe:
+        datos["usuarios"] = [u for u in usuarios if u["id"] != 2]
+        print("\nUsuario con ID 2 eliminado.")
+    else:
+        print("\nERROR Usuario con ID 2 no encontrado.")
+
+    mostrar_datos(datos)
+    pausar()
+
+
+    guardar_json(datos, ARCHIVO_DESTINO)
+    print("\nOperaciones completadas. Archivo actualizado.")
+
+
+if __name__ == "__main__":
+    main()
