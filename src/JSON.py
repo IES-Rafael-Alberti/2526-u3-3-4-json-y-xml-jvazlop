@@ -68,3 +68,10 @@ def cargar_json(ruta):
     except json.JSONDecodeError:
         print(f"WARNING: El archivo '{ruta}' tiene un formato JSON inválido o está vacío.")
         return None
+
+def guardar_json(datos, ruta):
+    try:
+        with open(ruta, "w", encoding="utf-8") as f:
+            json.dump(datos, f, indent=4, ensure_ascii=False)
+    except Exception as e:
+        print(f"ERROR guardando JSON: {e}")
